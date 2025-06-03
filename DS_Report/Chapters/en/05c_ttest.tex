@@ -4,7 +4,7 @@
 
 \textbf{Objective}: Determine whether red and white wines differ significantly in alcohol content.
 
-\begin{lstlisting}[language=R, caption=Alcohol Content Analysis by Wine Type]
+\begin{lstlisting}[language=R, caption=Alcohol Content Analysis by Wine Type, breaklines=true]
 	# Separate alcohol content by wine variety
 	red_alcohol <- wine_data$alcohol[wine_data$variety == "red"]
 	white_alcohol <- wine_data$alcohol[wine_data$variety == "white"]
@@ -23,7 +23,7 @@
 
 \subsection{Assumption Checking}
 
-\begin{lstlisting}[language=R, caption=T-Test Assumption Testing]
+\begin{lstlisting}[language=R, caption=T-Test Assumption Testing, breaklines=true]
 	# Check t-test assumptions
 	cat("--- Checking T-Test Assumptions ---\n")
 	
@@ -32,8 +32,10 @@
 	shapiro_red <- shapiro.test(red_alcohol)
 	shapiro_white <- shapiro.test(white_alcohol)
 	
-	cat("Red wine alcohol normality (Shapiro-Wilk): p =", shapiro_red$p.value, "\n")
-	cat("White wine alcohol normality (Shapiro-Wilk): p =", shapiro_white$p.value, "\n")
+	cat("Red wine alcohol normality (Shapiro-Wilk): p =", 
+	shapiro_red$p.value, "\n")
+	cat("White wine alcohol normality (Shapiro-Wilk): p =", 
+	shapiro_white$p.value, "\n")
 	
 	# 2. Equal variances test (Levene's test)
 	cat("\n2. Equal Variances Test (Levene):\n")
@@ -59,7 +61,7 @@
 
 \subsection{T-Test Results}
 
-\begin{lstlisting}[language=R, caption=Two-Sample T-Test]
+\begin{lstlisting}[language=R, caption=Two-Sample T-Test, breaklines=true]
 	# Conduct t-test
 	cat("\n--- Two-Sample T-Test Results ---\n")
 	
@@ -79,7 +81,7 @@
 \textit{[Insert t-test output from R]}
 
 \textbf{Statistical Decision}: 
-[Based on p-value, state whether to reject or fail to reject H₀]
+[Based on p-value, state whether to reject or fail to reject $H_0$]
 
 \textbf{Effect Size}: Cohen's d = [X.XX], indicating [small/medium/large] effect size.
 

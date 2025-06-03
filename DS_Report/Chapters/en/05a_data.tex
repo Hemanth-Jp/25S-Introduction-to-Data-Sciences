@@ -4,7 +4,7 @@
 
 The analysis utilizes a dataset of Portuguese wines containing 6,497 observations across 13 variables. The dataset includes both red and white wine varieties, with each observation representing a unique wine sample analyzed for chemical composition and rated for quality by expert panels.
 
-\begin{lstlisting}[language=R, caption=Data Import and Initial Setup]
+\begin{lstlisting}[language=R, caption=Data Import and Initial Setup, breaklines=true]
 	# Read the wine dataset
 	wine_data <- read.csv("wine copy.csv", stringsAsFactors = FALSE)
 	
@@ -31,10 +31,10 @@ The analysis utilizes a dataset of Portuguese wines containing 6,497 observation
 	\item \textbf{Residual Sugar (g/L):} Remaining sugar after fermentation completion
 	\item \textbf{Chlorides (g/L):} Salt content in wine
 	\item \textbf{Free Sulfur Dioxide (mg/L):} Prevents microbial growth and oxidation
-	\item \textbf{Total Sulfur Dioxide (mg/L):} Combined free and bound SO₂ forms
+	\item \textbf{Total Sulfur Dioxide (mg/L):} Combined free and bound SO$_2$ forms
 	\item \textbf{Density (g/mL):} Wine density relative to water
 	\item \textbf{pH:} Acidity/basicity measure on 0-14 scale
-	\item \textbf{Sulphates (g/L):} Wine additive contributing to SO₂ levels
+	\item \textbf{Sulphates (g/L):} Wine additive contributing to SO$_2$ levels
 	\item \textbf{Alcohol (\% vol):} Ethanol content by volume
 \end{itemize}
 

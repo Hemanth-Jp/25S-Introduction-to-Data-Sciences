@@ -1,131 +1,137 @@
-05e_classification.tex
-
 \section{Classification Methods}
 
 \subsection{Good vs. Bad Wine Classification}
 
 \textbf{Classification Scheme:}
 \begin{itemize}
-    \item Good wines: Quality ≥ 8
-    \item Bad wines: Quality ≤ 4
-    \item Medium wines: 5 ≤ Quality ≤ 7 (excluded from analysis)
+	\item Good wines: Quality $\geq$ 8
+	\item Bad wines: Quality $\leq$ 4
+	\item Medium wines: 5 $\leq$ Quality $\leq$ 7 (excluded from analysis)
 \end{itemize}
 
-\begin{lstlisting}[language=R, caption=Binary Classification Setup]
-# Create binary classification: Good (≥8) vs Bad (≤4)
-wine_data$quality_binary <- ifelse(wine_data$quality >= 8, "Good",
-                                  ifelse(wine_data$quality <= 4, "Bad", "Medium"))
-
-# Filter for only Good and Bad wines (exclude Medium)
-classification_data <- wine_data[wine_data$quality_binary %in% c("Good", "Bad"), ]
-classification_data$quality_binary <- factor(classification_data$quality_binary, 
-                                            levels = c("Bad", "Good"))
-
-cat("Classification Distribution:\n")
-print(table(classification_data$quality_binary))
-
-# Prepare predictor variables
-predictor_formula <- as.formula(paste("quality_binary ~", 
-                                    paste(predictor_vars, collapse = " + ")))
+\begin{lstlisting}[language=R, caption=Binary Classification Setup, breaklines=true]
+	# Create binary classification: Good (>=8) vs Bad (<=4)
+	wine_data$quality_binary <- ifelse(wine_data$quality >= 8, "Good",
+	ifelse(wine_data$quality <= 4, 
+	"Bad", "Medium"))
+	
+	# Filter for only Good and Bad wines (exclude Medium)
+	classification_data <- wine_data[wine_data$quality_binary %in% 
+	c("Good", "Bad"), ]
+	classification_data$quality_binary <- 
+	factor(classification_data$quality_binary, 
+	levels = c("Bad", "Good"))
+	
+	cat("Classification Distribution:\n")
+	print(table(classification_data$quality_binary))
+	
+	# Prepare predictor variables
+	predictor_formula <- as.formula(paste("quality_binary ~", 
+	paste(predictor_vars, 
+	collapse = " + ")))
 \end{lstlisting}
 
 \textbf{Sample Distribution:}
 \begin{itemize}
-    \item Good wines: [X] observations
-    \item Bad wines: [X] observations
+	\item Good wines: [X] observations
+	\item Bad wines: [X] observations
 \end{itemize}
 
 \subsection{Logistic Regression Model}
 
-\begin{lstlisting}[language=R, caption=Logistic Regression for Quality Classification]
-# Logistic Regression Model
-cat("\n--- Logistic Regression Model ---\n")
-quality_glm <- glm(predictor_formula, data = classification_data, family = binomial)
-summary(quality_glm)
-
-# Model fit statistics
-cat("\nModel Fit Statistics:\n")
-cat("AIC:", AIC(quality_glm), "\n")
-cat("Null Deviance:", quality_glm$null.deviance, "\n")
-cat("Residual Deviance:", quality_glm$deviance, "\n")
+\begin{lstlisting}[language=R, caption=Logistic Regression for Quality Classification, breaklines=true]
+	# Logistic Regression Model
+	cat("\n--- Logistic Regression Model ---\n")
+	quality_glm <- glm(predictor_formula, data = classification_data, 
+	family = binomial)
+	summary(quality_glm)
+	
+	# Model fit statistics
+	cat("\nModel Fit Statistics:\n")
+	cat("AIC:", AIC(quality_glm), "\n")
+	cat("Null Deviance:", quality_glm$null.deviance, "\n")
+	cat("Residual Deviance:", quality_glm$deviance, "\n")
 \end{lstlisting}
 
 \textit{[Insert logistic regression summary]}
 
 \textbf{Model Fit:}
 \begin{itemize}
-    \item AIC: [XXX.XX]
-    \item Null Deviance: [XXX.XX]
-    \item Residual Deviance: [XXX.XX]
+	\item AIC: [XXX.XX]
+	\item Null Deviance: [XXX.XX]
+	\item Residual Deviance: [XXX.XX]
 \end{itemize}
 
 \subsection{Classification Performance}
 
-\begin{lstlisting}[language=R, caption=Classification Performance Evaluation]
-# Predictions and Classification Performance
-predicted_probs <- predict(quality_glm, type = "response")
-predicted_class <- ifelse(predicted_probs > 0.5, "Good", "Bad")
-
-# Confusion Matrix
-conf_matrix <- table(Actual = classification_data$quality_binary, 
-                    Predicted = predicted_class)
-cat("\nConfusion Matrix:\n")
-print(conf_matrix)
-
-# Calculate performance metrics
-accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
-sensitivity <- conf_matrix[2,2] / sum(conf_matrix[2,])
-specificity <- conf_matrix[1,1] / sum(conf_matrix[1,])
-
-cat("\nClassification Performance:\n")
-cat("Accuracy:", round(accuracy, 4), "\n")
-cat("Sensitivity (True Positive Rate):", round(sensitivity, 4), "\n")
-cat("Specificity (True Negative Rate):", round(specificity, 4), "\n")
+\begin{lstlisting}[language=R, caption=Classification Performance Evaluation, breaklines=true]
+	# Predictions and Classification Performance
+	predicted_probs <- predict(quality_glm, type = "response")
+	predicted_class <- ifelse(predicted_probs > 0.5, "Good", "Bad")
+	
+	# Confusion Matrix
+	conf_matrix <- table(Actual = classification_data$quality_binary, 
+	Predicted = predicted_class)
+	cat("\nConfusion Matrix:\n")
+	print(conf_matrix)
+	
+	# Calculate performance metrics
+	accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+	sensitivity <- conf_matrix[2,2] / sum(conf_matrix[2,])
+	specificity <- conf_matrix[1,1] / sum(conf_matrix[1,])
+	
+	cat("\nClassification Performance:\n")
+	cat("Accuracy:", round(accuracy, 4), "\n")
+	cat("Sensitivity (True Positive Rate):", round(sensitivity, 4), "\n")
+	cat("Specificity (True Negative Rate):", round(specificity, 4), "\n")
 \end{lstlisting}
 
 \textit{[Insert confusion matrix]}
 
 \textbf{Performance Metrics:}
 \begin{itemize}
-    \item Accuracy: [X.XXX]
-    \item Sensitivity (True Positive Rate): [X.XXX]
-    \item Specificity (True Negative Rate): [X.XXX]
+	\item Accuracy: [X.XXX]
+	\item Sensitivity (True Positive Rate): [X.XXX]
+	\item Specificity (True Negative Rate): [X.XXX]
 \end{itemize}
 
 \subsection{Wine Type Prediction}
 
 \textbf{Methodology}: Train-validation split (70-30) for model development and evaluation.
 
-\begin{lstlisting}[language=R, caption=Wine Type Prediction with Validation]
-# Convert variety to binary (0/1) as required
-wine_data$variety_binary <- ifelse(wine_data$variety == "red", 1, 0)
-
-# Split data into training and validation sets (70/30 split)
-set.seed(123)  # For reproducibility
-train_indices <- sample(nrow(wine_data), size = 0.7 * nrow(wine_data))
-train_data <- wine_data[train_indices, ]
-validation_data <- wine_data[-train_indices, ]
-
-cat("Training set size:", nrow(train_data), "\n")
-cat("Validation set size:", nrow(validation_data), "\n")
-
-# Build logistic regression model on training data
-variety_formula <- as.formula(paste("variety_binary ~", 
-                                 paste(predictor_vars, collapse = " + ")))
-variety_glm <- glm(variety_formula, data = train_data, family = binomial)
-
-cat("\n--- Wine Type Prediction Model Summary ---\n")
-summary(variety_glm)
-
-# Predictions on validation set
-validation_probs <- predict(variety_glm, newdata = validation_data, type = "response")
-validation_pred <- ifelse(validation_probs > 0.5, 1, 0)
-
-# Confusion Matrix on validation set
-validation_conf <- table(Actual = validation_data$variety_binary, 
-                       Predicted = validation_pred)
-cat("\nValidation Set Confusion Matrix:\n")
-print(validation_conf)
+\begin{lstlisting}[language=R, caption=Wine Type Prediction with Validation, breaklines=true]
+	# Convert variety to binary (0/1) as required
+	wine_data$variety_binary <- ifelse(wine_data$variety == "red", 1, 0)
+	
+	# Split data into training and validation sets (70/30 split)
+	set.seed(123)  # For reproducibility
+	train_indices <- sample(nrow(wine_data), size = 0.7 * nrow(wine_data))
+	train_data <- wine_data[train_indices, ]
+	validation_data <- wine_data[-train_indices, ]
+	
+	cat("Training set size:", nrow(train_data), "\n")
+	cat("Validation set size:", nrow(validation_data), "\n")
+	
+	# Build logistic regression model on training data
+	variety_formula <- as.formula(paste("variety_binary ~", 
+	paste(predictor_vars, 
+	collapse = " + ")))
+	variety_glm <- glm(variety_formula, data = train_data, 
+	family = binomial)
+	
+	cat("\n--- Wine Type Prediction Model Summary ---\n")
+	summary(variety_glm)
+	
+	# Predictions on validation set
+	validation_probs <- predict(variety_glm, newdata = validation_data, 
+	type = "response")
+	validation_pred <- ifelse(validation_probs > 0.5, 1, 0)
+	
+	# Confusion Matrix on validation set
+	validation_conf <- table(Actual = validation_data$variety_binary, 
+	Predicted = validation_pred)
+	cat("\nValidation Set Confusion Matrix:\n")
+	print(validation_conf)
 \end{lstlisting}
 
 \textbf{Training Set Performance:}
@@ -134,33 +140,34 @@ print(validation_conf)
 \textbf{Validation Set Results:}
 \textit{[Insert validation confusion matrix and metrics]}
 
-\begin{lstlisting}[language=R, caption=ROC Analysis]
-# Performance metrics on validation set
-val_accuracy <- sum(diag(validation_conf)) / sum(validation_conf)
-val_sensitivity <- validation_conf[2,2] / sum(validation_conf[2,])
-val_specificity <- validation_conf[1,1] / sum(validation_conf[1,])
-
-cat("\nValidation Set Performance:\n")
-cat("Accuracy:", round(val_accuracy, 4), "\n")
-cat("Sensitivity:", round(val_sensitivity, 4), "\n")
-cat("Specificity:", round(val_specificity, 4), "\n")
-
-# ROC Curve and AUC
-cat("\n--- ROC Analysis ---\n")
-roc_obj <- roc(validation_data$variety_binary, validation_probs)
-auc_value <- auc(roc_obj)
-
-cat("AUC Value:", round(auc_value, 4), "\n")
-
-# Plot ROC curve
-plot(roc_obj, main = "ROC Curve - Wine Type Prediction",
-    col = "blue", lwd = 2)
-abline(a = 0, b = 1, lty = 2, col = "red")
-legend("bottomright", paste("AUC =", round(auc_value, 4)), col = "blue", lwd = 2)
+\begin{lstlisting}[language=R, caption=ROC Analysis, breaklines=true]
+	# Performance metrics on validation set
+	val_accuracy <- sum(diag(validation_conf)) / sum(validation_conf)
+	val_sensitivity <- validation_conf[2,2] / sum(validation_conf[2,])
+	val_specificity <- validation_conf[1,1] / sum(validation_conf[1,])
+	
+	cat("\nValidation Set Performance:\n")
+	cat("Accuracy:", round(val_accuracy, 4), "\n")
+	cat("Sensitivity:", round(val_sensitivity, 4), "\n")
+	cat("Specificity:", round(val_specificity, 4), "\n")
+	
+	# ROC Curve and AUC
+	cat("\n--- ROC Analysis ---\n")
+	roc_obj <- roc(validation_data$variety_binary, validation_probs)
+	auc_value <- auc(roc_obj)
+	
+	cat("AUC Value:", round(auc_value, 4), "\n")
+	
+	# Plot ROC curve
+	plot(roc_obj, main = "ROC Curve - Wine Type Prediction",
+	col = "blue", lwd = 2)
+	abline(a = 0, b = 1, lty = 2, col = "red")
+	legend("bottomright", paste("AUC =", round(auc_value, 4)), 
+	col = "blue", lwd = 2)
 \end{lstlisting}
 
 \textbf{ROC Analysis:}
 \begin{itemize}
-   \item AUC = [X.XXX]
-   \item Interpretation: [Outstanding/Excellent/Acceptable/Poor] classification performance
+	\item AUC = [X.XXX]
+	\item Interpretation: [Outstanding/Excellent/Acceptable/Poor] classification performance
 \end{itemize}
