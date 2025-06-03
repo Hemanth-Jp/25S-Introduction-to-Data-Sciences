@@ -1,0 +1,108 @@
+\section{Linear Regression Analysis}
+
+\subsection{Model Specification}
+
+The linear regression model predicts wine quality using all available chemical and sensory variables for red wines only:
+
+\begin{equation}
+	\text{Quality} = \beta_0 + \beta_1(\text{Fixed Acidity}) + \beta_2(\text{Volatile Acidity}) + \ldots + \beta_{11}(\text{Alcohol}) + \varepsilon
+\end{equation}
+
+\begin{lstlisting}[language=R, caption=Linear Regression Model Setup]
+	# Filter for red wines only
+	red_wines <- wine_data[wine_data$variety == "red", ]
+	cat("Number of red wine observations:", nrow(red_wines), "\n")
+	
+	# Select chemical and sensory variables
+	predictor_vars <- c("fixed.acidity", "volatile.acidity", "citric.acid", 
+	"residual.sugar", "chlorides", "free.sulfur.dioxide", 
+	"total.sulfur.dioxide", "density", "pH", "sulphates", "alcohol")
+	
+	# Create regression model
+	cat("\n--- Multiple Linear Regression Model ---\n")
+	regression_formula <- as.formula(paste("quality ~", paste(predictor_vars, collapse = " + ")))
+	wine_lm <- lm(regression_formula, data = red_wines)
+	
+	# Display regression results
+	summary(wine_lm)
+\end{lstlisting}
+
+\subsection{Regression Results}
+
+\textit{[Insert regression summary output]}
+
+\textbf{Model Fit Statistics:}
+\begin{itemize}
+	\item R² = [X.XXX]: [X]\% of variance in quality explained
+	\item Adjusted R² = [X.XXX]: Accounts for number of predictors
+	\item F-statistic = [X.XX], p < 0.001: Model is statistically significant
+\end{itemize}
+
+\textbf{Significant Predictors} ($\alpha = 0.05$):
+\textit{[List significant variables with coefficients and interpretations]}
+
+\subsection{Regression Diagnostics}
+
+\begin{lstlisting}[language=R, caption=Regression Diagnostics]
+	cat("\n--- Regression Diagnostics ---\n")
+	
+	# 1. Linearity Check - Residuals vs Fitted Plot
+	cat("1. Linearity Assessment:\n")
+	plot(fitted(wine_lm), resid(wine_lm),
+	main = "Residuals vs Fitted Values",
+	xlab = "Fitted Values", ylab = "Residuals")
+	abline(h = 0, col = "red", lty = 2)
+	
+	# RESET test for linearity
+	reset_test <- resettest(wine_lm, power = 2:3, type = "fitted")
+	cat("RESET Test for Linearity: p =", reset_test$p.value, "\n")
+	
+	# 2. Normality of Residuals
+	cat("\n2. Normality of Residuals:\n")
+	shapiro_resid <- shapiro.test(resid(wine_lm))
+	cat("Shapiro-Wilk test on residuals: p =", shapiro_resid$p.value, "\n")
+	
+	# 3. Homoscedasticity
+	cat("\n3. Homoscedasticity Tests:\n")
+	bp_test <- bptest(wine_lm)
+	cat("Breusch-Pagan test: p =", bp_test$p.value, "\n")
+	
+	# 4. Multicollinearity Check
+	cat("\n4. Multicollinearity Assessment:\n")
+	vif_values <- vif(wine_lm)
+	print(vif_values)
+	
+	# 5. Autocorrelation Check
+	cat("\n5. Autocorrelation Test:\n")
+	dw_test <- dwtest(wine_lm)
+	cat("Durbin-Watson test: p =", dw_test$p.value, "\n")
+\end{lstlisting}
+
+\textbf{Linearity Assessment:}
+\begin{itemize}
+	\item RESET test: p = [X.XXX]
+	\item Residuals vs. Fitted plot interpretation: [Description]
+\end{itemize}
+
+\textbf{Normality of Residuals:}
+\begin{itemize}
+	\item Shapiro-Wilk test on residuals: p = [X.XXX]
+	\item Q-Q plot assessment: [Description]
+\end{itemize}
+
+\textbf{Homoscedasticity:}
+\begin{itemize}
+	\item Breusch-Pagan test: p = [X.XXX]
+\end{itemize}
+
+\textbf{Multicollinearity:}
+\begin{itemize}
+	\item VIF values: [List any values > 10 and interpretation]
+\end{itemize}
+
+\textbf{Autocorrelation:}
+\begin{itemize}
+	\item Durbin-Watson test: p = [X.XXX]
+\end{itemize}
+
+\textbf{Assumption Summary}: [Overall assessment of regression assumptions and any violations]

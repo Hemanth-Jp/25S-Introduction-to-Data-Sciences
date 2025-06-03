@@ -1,0 +1,132 @@
+\section{Exploratory Data Analysis}
+
+\subsection{Summary Statistics}
+
+\begin{lstlisting}[language=R, caption=Summary Statistics for Metric Variables]
+	# Select numeric variables (exclude variety)
+	numeric_vars <- wine_data[, sapply(wine_data, is.numeric)]
+	
+	# Comprehensive summary statistics
+	summary_stats <- describe(numeric_vars)
+	print(summary_stats)
+\end{lstlisting}
+
+\textit{[Insert R output from describe() function showing mean, standard deviation, median, quartiles, min, max for all numeric variables]}
+
+The descriptive statistics reveal several important characteristics of the wine dataset:
+
+\textbf{Central Tendency}: Most chemical variables show reasonable distributions around their means, with quality ratings averaging approximately [X.X] on the 10-point scale.
+
+\textbf{Variability}: Standard deviations indicate moderate variability in most chemical parameters, with residual sugar showing the highest coefficient of variation, suggesting diverse wine styles in the dataset.
+
+\textbf{Missing Values}: Analysis confirmed no missing values in the dataset, ensuring complete case analysis for all statistical procedures.
+
+\begin{lstlisting}[language=R, caption=Missing Values Analysis]
+	# Check for missing values
+	cat("\n--- Missing Values Analysis ---\n")
+	missing_values <- sapply(wine_data, function(x) sum(is.na(x)))
+	print(missing_values)
+	
+	if(sum(missing_values) == 0) {
+		cat("No missing values found in the dataset.\n")
+	} else {
+		cat("Missing values detected. See above for details.\n")
+	}
+\end{lstlisting}
+
+\subsection{Distribution Analysis and Skewness}
+
+\begin{lstlisting}[language=R, caption=Skewness Analysis and Visualization]
+	# Loop through numeric variables for histograms and skewness
+	skewness_results <- data.frame(
+	Variable = names(numeric_vars),
+	Skewness = numeric(ncol(numeric_vars)),
+	Interpretation = character(ncol(numeric_vars)),
+	stringsAsFactors = FALSE
+	)
+	
+	for(i in 1:ncol(numeric_vars)) {
+		var_name <- names(numeric_vars)[i]
+		var_data <- numeric_vars[, i]
+		
+		# Calculate skewness
+		skew_val <- skew(var_data, na.rm = TRUE)
+		skewness_results$Skewness[i] <- skew_val
+		
+		# Interpret skewness
+		if(abs(skew_val) < 0.5) {
+			skewness_results$Interpretation[i] <- "Approximately symmetric"
+		} else if(skew_val >= 0.5) {
+			skewness_results$Interpretation[i] <- "Right-skewed"
+		} else {
+			skewness_results$Interpretation[i] <- "Left-skewed"
+		}
+		
+		# Create histogram
+		hist(var_data, 
+		main = paste("Histogram of", var_name),
+		xlab = var_name,
+		col = "lightblue",
+		border = "black")
+	}
+\end{lstlisting}
+
+\textit{[Insert skewness analysis table from R output]}
+
+Skewness analysis reveals important distributional characteristics:
+
+\begin{itemize}
+	\item \textbf{Right-skewed variables} (skewness > 0.5): [List variables] suggest the presence of wines with elevated levels of these compounds
+	\item \textbf{Left-skewed variables} (skewness < -0.5): [List variables] indicate few wines with very low levels
+	\item \textbf{Approximately symmetric variables} (|skewness| < 0.5): [List variables] follow roughly normal distributions
+\end{itemize}
+
+\subsection{Outlier Detection}
+
+\begin{lstlisting}[language=R, caption=Outlier Detection using Boxplots]
+	# Create boxplots for key variables
+	par(mfrow = c(2, 3))
+	key_vars <- c("fixed.acidity", "volatile.acidity", "alcohol", 
+	"quality", "pH", "sulphates")
+	
+	for(var in key_vars) {
+		if(var %in% names(wine_data)) {
+			boxplot(wine_data[[var]], 
+			main = paste("Boxplot of", var),
+			ylab = var,
+			col = "lightgreen")
+		}
+	}
+	par(mfrow = c(1, 1))
+\end{lstlisting}
+
+Boxplot analysis identified potential outliers in several variables:
+
+\textit{[Insert interpretation of boxplot results]}
+
+These outliers may represent wines with exceptional characteristics or measurement errors, but were retained in the analysis as they may contain valuable information about wine diversity.
+
+\subsection{Categorical Variable Distributions}
+
+\begin{lstlisting}[language=R, caption=Frequency Distributions for Categorical Variables]
+	# Frequency distributions for categorical variables
+	cat("\n--- Frequency Distributions for Categorical Variables ---\n")
+	cat("Wine Variety Distribution:\n")
+	variety_table <- table(wine_data$variety)
+	print(variety_table)
+	print(prop.table(variety_table))
+	
+	cat("\nQuality Distribution:\n")
+	quality_table <- table(wine_data$quality)
+	print(quality_table)
+	print(prop.table(quality_table))
+\end{lstlisting}
+
+\textbf{Wine Variety Distribution:}
+\begin{itemize}
+	\item Red wines: [X] observations ([X]\%)
+	\item White wines: [X] observations ([X]\%)
+\end{itemize}
+
+\textbf{Quality Rating Distribution:}
+\textit{[Insert quality distribution table and interpretation]}

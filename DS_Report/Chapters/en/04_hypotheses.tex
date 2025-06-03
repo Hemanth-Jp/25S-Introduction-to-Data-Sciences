@@ -1,0 +1,45 @@
+\chapter{Research Hypotheses}
+
+\section{Primary Research Questions}
+
+Based on the theoretical foundations and literature review, this study addresses the following primary research questions:
+
+\textbf{RQ1}: What are the characteristic distributions and relationships among chemical and sensory variables in Portuguese red and white wines?
+
+\textbf{RQ2}: Do red and white wines exhibit significantly different alcohol content levels?
+
+\textbf{RQ3}: Can wine quality be effectively predicted from chemical and sensory properties using linear regression techniques?
+
+\textbf{RQ4}: How accurately can wines be classified into quality categories (good vs. bad) based on their chemical composition?
+
+\textbf{RQ5}: Can wine variety (red vs. white) be predicted from chemical properties alone, and what is the predictive performance on validation data?
+
+\textbf{RQ6}: What underlying factor structure exists in the chemical composition data, and how many factors are needed to adequately represent wine chemistry?
+
+\section{Statistical Hypotheses}
+
+\textbf{Hypothesis 1 (H1)}: Alcohol Content Comparison
+\begin{itemize}
+	\item $H_0$: $\mu_{red} = \mu_{white}$ (No difference in mean alcohol content between red and white wines)
+	\item $H_1$: $\mu_{red} \neq \mu_{white}$ (Significant difference in mean alcohol content between wine types)
+	\item $\alpha = 0.05$
+\end{itemize}
+
+\textbf{Hypothesis 2 (H2)}: Linear Regression Model Significance
+\begin{itemize}
+	\item $H_0$: $\beta_1 = \beta_2 = \ldots = \beta_k = 0$ (No linear relationship between chemical variables and wine quality)
+	\item $H_1$: At least one $\beta_i \neq 0$ (Significant linear relationship exists)
+	\item $\alpha = 0.05$
+\end{itemize}
+
+\textbf{Hypothesis 3 (H3)}: Classification Performance
+\begin{itemize}
+	\item $H_0$: Classification accuracy $\leq 0.5$ (No better than random chance)
+	\item $H_1$: Classification accuracy $> 0.5$ (Better than random classification)
+\end{itemize}
+
+\textbf{Hypothesis 4 (H4)}: Factor Analysis Suitability
+\begin{itemize}
+	\item $H_0$: Correlation matrix is not suitable for factor analysis (KMO $< 0.5$)
+	\item $H_1$: Correlation matrix is suitable for factor analysis (KMO $\geq 0.5$)
+\end{itemize}

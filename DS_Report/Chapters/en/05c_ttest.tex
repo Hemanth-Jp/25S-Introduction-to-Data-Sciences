@@ -1,0 +1,86 @@
+\section{Hypothesis Testing}
+
+\subsection{Research Question: Alcohol Content Comparison}
+
+\textbf{Objective}: Determine whether red and white wines differ significantly in alcohol content.
+
+\begin{lstlisting}[language=R, caption=Alcohol Content Analysis by Wine Type]
+	# Separate alcohol content by wine variety
+	red_alcohol <- wine_data$alcohol[wine_data$variety == "red"]
+	white_alcohol <- wine_data$alcohol[wine_data$variety == "white"]
+	
+	cat("--- Descriptive Statistics by Wine Type ---\n")
+	cat("Red wine alcohol content:\n")
+	cat("Mean:", mean(red_alcohol, na.rm = TRUE), "\n")
+	cat("SD:", sd(red_alcohol, na.rm = TRUE), "\n")
+	cat("N:", length(red_alcohol), "\n\n")
+	
+	cat("White wine alcohol content:\n")
+	cat("Mean:", mean(white_alcohol, na.rm = TRUE), "\n")
+	cat("SD:", sd(white_alcohol, na.rm = TRUE), "\n")
+	cat("N:", length(white_alcohol), "\n\n")
+\end{lstlisting}
+
+\subsection{Assumption Checking}
+
+\begin{lstlisting}[language=R, caption=T-Test Assumption Testing]
+	# Check t-test assumptions
+	cat("--- Checking T-Test Assumptions ---\n")
+	
+	# 1. Normality check using Shapiro-Wilk test
+	cat("1. Normality Tests:\n")
+	shapiro_red <- shapiro.test(red_alcohol)
+	shapiro_white <- shapiro.test(white_alcohol)
+	
+	cat("Red wine alcohol normality (Shapiro-Wilk): p =", shapiro_red$p.value, "\n")
+	cat("White wine alcohol normality (Shapiro-Wilk): p =", shapiro_white$p.value, "\n")
+	
+	# 2. Equal variances test (Levene's test)
+	cat("\n2. Equal Variances Test (Levene):\n")
+	levene_test <- leveneTest(alcohol ~ variety, data = wine_data)
+	print(levene_test)
+	
+	# 3. Independence assumption (addressed in interpretation)
+	cat("\n3. Independence: Assumed based on random sampling design\n")
+\end{lstlisting}
+
+\textbf{Normality Assessment:}
+\begin{itemize}
+	\item Shapiro-Wilk test for red wines: p = [X.XXX]
+	\item Shapiro-Wilk test for white wines: p = [X.XXX]
+\end{itemize}
+
+\textbf{Equal Variances Assessment:}
+\begin{itemize}
+	\item Levene's test: F = [X.XX], p = [X.XXX]
+\end{itemize}
+
+\textbf{Independence}: Assumed based on sampling methodology
+
+\subsection{T-Test Results}
+
+\begin{lstlisting}[language=R, caption=Two-Sample T-Test]
+	# Conduct t-test
+	cat("\n--- Two-Sample T-Test Results ---\n")
+	
+	# Use Welch t-test (unequal variances) as default
+	t_test_result <- t.test(red_alcohol, white_alcohol, var.equal = FALSE)
+	print(t_test_result)
+	
+	# Effect size (Cohen's d)
+	pooled_sd <- sqrt(((length(red_alcohol)-1)*var(red_alcohol) + 
+	(length(white_alcohol)-1)*var(white_alcohol)) / 
+	(length(red_alcohol) + length(white_alcohol) - 2))
+	cohens_d <- (mean(red_alcohol) - mean(white_alcohol)) / pooled_sd
+	
+	cat("\nEffect Size (Cohen's d):", cohens_d, "\n")
+\end{lstlisting}
+
+\textit{[Insert t-test output from R]}
+
+\textbf{Statistical Decision}: 
+[Based on p-value, state whether to reject or fail to reject H₀]
+
+\textbf{Effect Size}: Cohen's d = [X.XX], indicating [small/medium/large] effect size.
+
+\textbf{Interpretation}: [Provide practical interpretation of the results]

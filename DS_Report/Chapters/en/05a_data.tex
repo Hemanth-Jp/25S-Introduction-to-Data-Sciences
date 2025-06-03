@@ -1,0 +1,45 @@
+\chapter{Own Empirical Study}
+
+\section{Dataset Description}
+
+The analysis utilizes a dataset of Portuguese wines containing 6,497 observations across 13 variables. The dataset includes both red and white wine varieties, with each observation representing a unique wine sample analyzed for chemical composition and rated for quality by expert panels.
+
+\begin{lstlisting}[language=R, caption=Data Import and Initial Setup]
+	# Read the wine dataset
+	wine_data <- read.csv("wine copy.csv", stringsAsFactors = FALSE)
+	
+	# Remove the index column (X) as specified in assignment
+	wine_data <- wine_data[, -1]
+	
+	# Display basic information about the dataset
+	cat("=== WINE DATASET OVERVIEW ===\n")
+	cat("Dataset dimensions:", dim(wine_data), "\n")
+	cat("Number of observations:", nrow(wine_data), "\n")
+	cat("Number of variables:", ncol(wine_data), "\n\n")
+	
+	# Convert variety to factor
+	wine_data$variety <- as.factor(wine_data$variety)
+\end{lstlisting}
+
+\subsection{Variable Descriptions}
+
+\textbf{Chemical Variables:}
+\begin{itemize}
+	\item \textbf{Fixed Acidity (g/L):} Non-volatile acids that do not evaporate readily
+	\item \textbf{Volatile Acidity (g/L):} Acetic acid content, associated with vinegar taste at high levels
+	\item \textbf{Citric Acid (g/L):} Adds freshness and flavor in small quantities
+	\item \textbf{Residual Sugar (g/L):} Remaining sugar after fermentation completion
+	\item \textbf{Chlorides (g/L):} Salt content in wine
+	\item \textbf{Free Sulfur Dioxide (mg/L):} Prevents microbial growth and oxidation
+	\item \textbf{Total Sulfur Dioxide (mg/L):} Combined free and bound SO₂ forms
+	\item \textbf{Density (g/mL):} Wine density relative to water
+	\item \textbf{pH:} Acidity/basicity measure on 0-14 scale
+	\item \textbf{Sulphates (g/L):} Wine additive contributing to SO₂ levels
+	\item \textbf{Alcohol (\% vol):} Ethanol content by volume
+\end{itemize}
+
+\textbf{Target Variables:}
+\begin{itemize}
+	\item \textbf{Quality:} Expert rating on 0-10 scale (higher = better quality)
+	\item \textbf{Variety:} Wine type (red or white)
+\end{itemize}
