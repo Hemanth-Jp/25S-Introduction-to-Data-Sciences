@@ -1,0 +1,332 @@
+\appendix
+
+\chapter{AI Tool Usage Documentation}
+
+\begin{table}[H]
+\centering
+\caption{AI Tool Usage Documentation}
+\begin{tabular}{|p{3cm}|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\textbf{Used Tool} & \textbf{Type of Use} & \textbf{Affected Parts of Work} & \textbf{Remarks} \\
+\hline
+Claude (Anthropic) & R code structure and debugging assistance & Section 5, R Script & Code templates and debugging help. Prompts included in Appendix C. \\
+\hline
+Claude (Anthropic) & Statistical method consultation & Section 2, Section 5 & Verification of statistical procedures. Original interpretations by author. \\
+\hline
+DeepL Translator & Translation assistance & Literature review & Minor assistance with German sources \\
+\hline
+\end{tabular}
+\end{table}
+
+\chapter{R Script Output}
+
+\textit{[Include all R script outputs, including tables, statistical test results, and any relevant screenshots]}
+
+\chapter{AI Conversation Prompts}
+
+\textit{[Include relevant prompts used with AI tools, showing transparency in assistance received]}
+
+\subsection{Prompt 1: R Script Development}
+``Please help me create an R script structure for wine dataset analysis including exploratory data analysis, t-tests, linear regression, logistic regression, and factor analysis...''
+
+\subsection{Prompt 2: Statistical Interpretation}
+``How should I interpret VIF values in multiple regression, and what constitutes multicollinearity?''
+
+\textit{[Continue with other relevant prompts]}
+
+\chapter{Complete R Script}
+
+\begin{lstlisting}[language=R, caption=Complete Wine Analysis R Script, breaklines=true]
+# =============================================================================
+# Wine Dataset Analysis - Introduction to Data Science Term Paper
+# Prof. Dr. Joachim Schwarz - Emden/Leer University of Applied Sciences
+# 
+# AI Usage Documentation:
+# - Claude (Anthropic) was used for R code structure and debugging assistance
+# - Prompts included in appendix of term paper
+# - Statistical interpretations are original author analysis
+# =============================================================================
+
+# Clear workspace and set working directory
+rm(list = ls())
+
+# Required Libraries
+# Install packages if not already installed
+required_packages <- c("psych", "car", "lmtest", "corrplot", "REdaS", 
+                      "pROC", "ROCR", "caret", "ggplot2", "dplyr")
+
+for(pkg in required_packages) {
+  if(!require(pkg, character.only = TRUE)) {
+    install.packages(pkg)
+    library(pkg, character.only = TRUE)
+  }
+}
+
+# =============================================================================
+# DATA IMPORT AND INITIAL SETUP
+# =============================================================================
+
+# Read the wine dataset
+wine_data <- read.csv("wine copy.csv", stringsAsFactors = FALSE)
+
+# Remove the index column (X) as specified in assignment
+wine_data <- wine_data[, -1]
+
+# Display basic information about the dataset
+cat("=== WINE DATASET OVERVIEW ===\n")
+cat("Dataset dimensions:", dim(wine_data), "\n")
+cat("Number of observations:", nrow(wine_data), "\n")
+cat("Number of variables:", ncol(wine_data), "\n\n")
+
+# Display structure
+str(wine_data)
+
+# Convert variety to factor
+wine_data$variety <- as.factor(wine_data$variety)
+
+# =============================================================================
+# TASK 1: EXPLORATORY DATA ANALYSIS (EDA)
+# =============================================================================
+
+cat("\n=== TASK 1: EXPLORATORY DATA ANALYSIS ===\n")
+
+# a) Summary statistics for all metric variables
+cat("\n--- Summary Statistics for All Metric Variables ---\n")
+
+# Select numeric variables (exclude variety)
+numeric_vars <- wine_data[, sapply(wine_data, is.numeric)]
+
+# Comprehensive summary statistics
+summary_stats <- describe(numeric_vars)
+print(summary_stats)
+
+# Check for missing values
+cat("\n--- Missing Values Analysis ---\n")
+missing_values <- sapply(wine_data, function(x) sum(is.na(x)))
+print(missing_values)
+
+if(sum(missing_values) == 0) {
+  cat("No missing values found in the dataset.\n")
+} else {
+  cat("Missing values detected. See above for details.\n")
+}
+
+# Frequency distributions for categorical variables
+cat("\n--- Frequency Distributions for Categorical Variables ---\n")
+cat("Wine Variety Distribution:\n")
+variety_table <- table(wine_data$variety)
+print(variety_table)
+print(prop.table(variety_table))
+
+cat("\nQuality Distribution:\n")
+quality_table <- table(wine_data$quality)
+print(quality_table)
+print(prop.table(quality_table))
+
+# b) Create visualizations and calculate skewness
+cat("\n--- Generating Graphics and Skewness Analysis ---\n")
+
+# Set up plotting parameters
+par(mfrow = c(2, 2))
+
+# Loop through numeric variables for histograms and skewness
+skewness_results <- data.frame(
+  Variable = names(numeric_vars),
+  Skewness = numeric(ncol(numeric_vars)),
+  Interpretation = character(ncol(numeric_vars)),
+  stringsAsFactors = FALSE
+)
+
+for(i in 1:ncol(numeric_vars)) {
+  var_name <- names(numeric_vars)[i]
+  var_data <- numeric_vars[, i]
+  
+  # Calculate skewness
+  skew_val <- skew(var_data, na.rm = TRUE)
+  skewness_results$Skewness[i] <- skew_val
+  
+  # Interpret skewness
+  if(abs(skew_val) < 0.5) {
+    skewness_results$Interpretation[i] <- "Approximately symmetric"
+  } else if(skew_val >= 0.5) {
+    skewness_results$Interpretation[i] <- "Right-skewed"
+  } else {
+    skewness_results$Interpretation[i] <- "Left-skewed"
+  }
+  
+  # Create histogram
+  hist(var_data, 
+       main = paste("Histogram of", var_name),
+       xlab = var_name,
+       col = "lightblue",
+       border = "black")
+}
+
+# Reset plotting parameters
+par(mfrow = c(1, 1))
+
+cat("\nSkewness Analysis Results:\n")
+print(skewness_results)
+
+# Boxplots for outlier detection
+cat("\n--- Outlier Detection using Boxplots ---\n")
+
+# Create boxplots for key variables
+par(mfrow = c(2, 3))
+key_vars <- c("fixed.acidity", "volatile.acidity", "alcohol", "quality", "pH", "sulphates")
+
+for(var in key_vars) {
+  if(var %in% names(wine_data)) {
+    boxplot(wine_data[[var]], 
+            main = paste("Boxplot of", var),
+            ylab = var,
+            col = "lightgreen")
+  }
+}
+
+par(mfrow = c(1, 1))
+
+# =============================================================================
+# TASK 2: HYPOTHESIS TESTING - ALCOHOL CONTENT BY WINE TYPE
+# =============================================================================
+
+cat("\n=== TASK 2: HYPOTHESIS TESTING ===\n")
+
+# Research question: Does alcohol content differ significantly between red and white wines?
+
+# Separate alcohol content by wine variety
+red_alcohol <- wine_data$alcohol[wine_data$variety == "red"]
+white_alcohol <- wine_data$alcohol[wine_data$variety == "white"]
+
+cat("--- Descriptive Statistics by Wine Type ---\n")
+cat("Red wine alcohol content:\n")
+cat("Mean:", mean(red_alcohol, na.rm = TRUE), "\n")
+cat("SD:", sd(red_alcohol, na.rm = TRUE), "\n")
+cat("N:", length(red_alcohol), "\n\n")
+
+cat("White wine alcohol content:\n")
+cat("Mean:", mean(white_alcohol, na.rm = TRUE), "\n")
+cat("SD:", sd(white_alcohol, na.rm = TRUE), "\n")
+cat("N:", length(white_alcohol), "\n\n")
+
+# Check t-test assumptions
+cat("--- Checking T-Test Assumptions ---\n")
+
+# 1. Normality check using Shapiro-Wilk test
+cat("1. Normality Tests:\n")
+shapiro_red <- shapiro.test(red_alcohol)
+shapiro_white <- shapiro.test(white_alcohol)
+
+cat("Red wine alcohol normality (Shapiro-Wilk): p =", shapiro_red$p.value, "\n")
+cat("White wine alcohol normality (Shapiro-Wilk): p =", shapiro_white$p.value, "\n")
+
+# 2. Equal variances test (Levene's test)
+cat("\n2. Equal Variances Test (Levene):\n")
+levene_test <- leveneTest(alcohol ~ variety, data = wine_data)
+print(levene_test)
+
+# 3. Independence assumption (addressed in interpretation)
+cat("\n3. Independence: Assumed based on random sampling design\n")
+
+# Conduct t-test
+cat("\n--- Two-Sample T-Test Results ---\n")
+
+# Use Welch t-test (unequal variances) as default
+t_test_result <- t.test(red_alcohol, white_alcohol, var.equal = FALSE)
+print(t_test_result)
+
+# Effect size (Cohen's d)
+pooled_sd <- sqrt(((length(red_alcohol)-1)*var(red_alcohol) + 
+                  (length(white_alcohol)-1)*var(white_alcohol)) / 
+                  (length(red_alcohol) + length(white_alcohol) - 2))
+cohens_d <- (mean(red_alcohol) - mean(white_alcohol)) / pooled_sd
+
+cat("\nEffect Size (Cohen's d):", cohens_d, "\n")
+
+# Interpretation
+cat("\n--- Interpretation ---\n")
+if(t_test_result$p.value < 0.05) {
+  cat("Result: Significant difference in alcohol content between wine types (p < 0.05)\n")
+} else {
+  cat("Result: No significant difference in alcohol content between wine types (p ≥ 0.05)\n")
+}
+
+# =============================================================================
+# TASK 3: LINEAR REGRESSION (RED WINES ONLY)
+# =============================================================================
+
+cat("\n=== TASK 3: LINEAR REGRESSION ANALYSIS (RED WINES ONLY) ===\n")
+
+# Filter for red wines only
+red_wines <- wine_data[wine_data$variety == "red", ]
+cat("Number of red wine observations:", nrow(red_wines), "\n")
+
+# Select chemical and sensory variables (exclude variety and quality initially)
+predictor_vars <- c("fixed.acidity", "volatile.acidity", "citric.acid", 
+                   "residual.sugar", "chlorides", "free.sulfur.dioxide", 
+                   "total.sulfur.dioxide", "density", "pH", "sulphates", "alcohol")
+
+# Create regression model
+cat("\n--- Multiple Linear Regression Model ---\n")
+regression_formula <- as.formula(paste("quality ~", paste(predictor_vars, collapse = " + ")))
+wine_lm <- lm(regression_formula, data = red_wines)
+
+# Display regression results
+summary(wine_lm)
+
+# Store key regression statistics
+r_squared <- summary(wine_lm)$r.squared
+adj_r_squared <- summary(wine_lm)$adj.r.squared
+f_statistic <- summary(wine_lm)$fstatistic
+
+cat("\nKey Model Statistics:\n")
+cat("R-squared:", round(r_squared, 4), "\n")
+cat("Adjusted R-squared:", round(adj_r_squared, 4), "\n")
+cat("F-statistic:", round(f_statistic[1], 4), "\n")
+
+# =============================================================================
+# REGRESSION DIAGNOSTICS
+# =============================================================================
+
+cat("\n--- Regression Diagnostics ---\n")
+
+# 1. Linearity Check - Residuals vs Fitted Plot
+cat("1. Linearity Assessment:\n")
+plot(fitted(wine_lm), resid(wine_lm),
+     main = "Residuals vs Fitted Values",
+     xlab = "Fitted Values", ylab = "Residuals")
+abline(h = 0, col = "red", lty = 2)
+
+# RESET test for linearity
+reset_test <- resettest(wine_lm, power = 2:3, type = "fitted")
+cat("RESET Test for Linearity: p =", reset_test$p.value, "\n")
+
+# 2. Normality of Residuals
+cat("\n2. Normality of Residuals:\n")
+shapiro_resid <- shapiro.test(resid(wine_lm))
+cat("Shapiro-Wilk test on residuals: p =", shapiro_resid$p.value, "\n")
+
+# Q-Q plot
+qqnorm(resid(wine_lm))
+qqline(resid(wine_lm), col = "red")
+
+# 3. Homoscedasticity (Equal Variances)
+cat("\n3. Homoscedasticity Tests:\n")
+bp_test <- bptest(wine_lm)
+cat("Breusch-Pagan test: p =", bp_test$p.value, "\n")
+
+# 4. Multicollinearity Check
+cat("\n4. Multicollinearity Assessment:\n")
+vif_values <- vif(wine_lm)
+print(vif_values)
+
+cat("\nVIF Interpretation (>10 indicates multicollinearity):\n")
+high_vif <- vif_values[vif_values > 10]
+if(length(high_vif) > 0) {
+  cat("High VIF variables:", names(high_vif), "\n")
+} else {
+  cat("No serious multicollinearity detected (all VIF < 10)\n")
+}
+
+# 5. Autocorrelation Check
+cat("\n5. Autocorrelation Test:\n")
