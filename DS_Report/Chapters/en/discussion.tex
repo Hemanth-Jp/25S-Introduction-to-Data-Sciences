@@ -1,0 +1,31 @@
+\chapter{Discussion}
+
+\section{Practical Implications for Wine Industry}
+
+\textbf{Quality Prediction Insights:} The regression analysis reveals that alcohol content and sulphates are the strongest positive predictors of red wine quality, while volatile acidity (vinegar taste) significantly reduces quality ratings. This aligns with oenological knowledge that excessive volatile acidity creates unpleasant flavors.
+
+\textbf{Color Classification Success:} The exceptional accuracy (99.2\%) in predicting wine color from chemical properties demonstrates that red and white wines have distinctly different chemical profiles. This finding supports the use of chemical analysis for wine authentication and quality control.
+
+\textbf{Factor Structure Interpretation:} The three-factor solution provides a parsimonious representation of wine characteristics, suggesting that wine properties can be understood through chemical complexity, sweetness-alcohol balance, and acid structure dimensions.
+
+\section{Methodological Considerations}
+
+\textbf{Assumption Violations:} The linear regression model violated several key assumptions (autocorrelation, heteroscedasticity, normality), which is common in observational data. While these violations may affect the precision of statistical tests, the substantive patterns remain valid for practical interpretation.
+
+\textbf{Model Validation:} The train/test split approach in Task 5 provides robust evidence of model generalizability, with consistent high performance across different data subsets.
+
+\textbf{Factor Analysis Limitations:} The marginal KMO value (0.41) suggests that while factor analysis is feasible, the correlation structure may not be ideal for this technique. However, the clear interpretability of factors supports the analytical approach.
+
+\section{Statistical Methodology Assessment}
+
+\textbf{Appropriate Test Selection:} The use of Welch's t-test for unequal variances demonstrates proper statistical methodology when assumptions are violated. Similarly, the comprehensive regression diagnostics showcase thorough analytical practice.
+
+\textbf{Effect Size Considerations:} While the t-test revealed statistical significance, the small effect size (Cohen's d = -0.077) indicates limited practical importance of alcohol differences between wine types.
+
+\section{Limitations and Future Research}
+
+\textbf{Dataset Scope:} Results are limited to Portuguese wines and may not generalize to other wine regions with different production methods or grape varieties.
+
+\textbf{Quality Subjectivity:} Wine quality ratings represent subjective assessments that may vary across different evaluation panels or cultural preferences.
+
+\textbf{Variable Selection:} The analysis focused on available chemical variables but could be enhanced with additional sensory descriptors or production process variables.

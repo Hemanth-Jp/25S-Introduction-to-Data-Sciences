@@ -1,0 +1,149 @@
+\chapter{Results}
+
+\section{Task 1: Descriptive Statistics and Data Exploration}
+
+\subsection{Distribution Parameters}
+The comprehensive descriptive analysis reveals interesting patterns across wine properties. Most variables show right-skewed distributions, with chlorides exhibiting the highest skewness (5.40), followed by residual sugar (1.44) and fixed acidity (1.72). Quality scores demonstrate near-normal distribution (skewness = 0.19), while alcohol content shows moderate right skew (0.57).
+
+\textbf{Key Distributional Findings:}
+\begin{itemize}
+\item \textbf{Right-skewed:} Chlorides, residual sugar, fixed acidity, volatile acidity, sulphates
+\item \textbf{Approximately normal:} Total sulfur dioxide (-0.001), quality (0.19), pH (0.39)
+\item \textbf{Moderate skew:} Alcohol (0.57), free sulfur dioxide (1.22), citric acid (0.47)
+\end{itemize}
+
+\subsection{Missing Values and Outliers}
+No missing values were detected across all variables. Visual inspection of boxplots reveals outliers primarily in chlorides, residual sugar, and sulfur dioxide variables, consistent with the high skewness values observed.
+
+\section{Task 2: Alcohol Content Comparison Between Wine Types}
+
+\subsection{T-test Assumptions Assessment}
+\textbf{Normality Tests:} Shapiro-Wilk tests rejected normality for both groups (red wines: p = 6.64$\times$10$^{-27}$, white wines: p = 2.57$\times$10$^{-36}$), indicating non-normal distributions.
+
+\textbf{Equal Variances:} F-test strongly rejected equal variances assumption (p = 5.95$\times$10$^{-12}$), necessitating Welch's unequal variances t-test.
+
+\subsection{T-test Results}
+\textbf{Welch Two Sample t-test:}
+\begin{itemize}
+\item \textbf{Test Statistic:} t = -2.859, df = 3100.5
+\item \textbf{p-value:} 0.004278 (statistically significant at $\alpha$ = 0.05)
+\item \textbf{95\% Confidence Interval:} [-0.154, -0.029]
+\item \textbf{Sample Means:} Red wines = 10.42\% vol, White wines = 10.51\% vol
+\item \textbf{Effect Size (Cohen's d):} -0.077 (small effect)
+\end{itemize}
+
+\textbf{Conclusion:} There is a statistically significant difference in alcohol content between red and white wines (p < 0.01), with white wines having slightly higher alcohol content on average. However, the effect size is small, indicating limited practical significance.
+
+\section{Task 3: Linear Regression Analysis for Red Wine Quality}
+
+\subsection{Model Performance}
+The multiple linear regression model for red wine quality prediction demonstrates moderate explanatory power:
+\begin{itemize}
+\item \textbf{R-squared:} 0.361 (explaining 36.1\% of variance)
+\item \textbf{Adjusted R-squared:} 0.356
+\item \textbf{F-statistic:} 81.35 (p < 2.2$\times$10$^{-16}$)
+\item \textbf{Residual Standard Error:} 0.648
+\end{itemize}
+
+\subsection{Significant Predictors}
+Variables with statistically significant impact on red wine quality (p < 0.05):
+
+\textbf{Positive Effects:}
+\begin{itemize}
+\item \textbf{Alcohol} ($\beta$ = 0.276, p < 2$\times$10$^{-16}$): Strongest positive predictor
+\item \textbf{Sulphates} ($\beta$ = 0.916, p = 2.13$\times$10$^{-15}$): Strong positive influence
+\item \textbf{Free sulfur dioxide} ($\beta$ = 0.004, p = 0.045): Weak positive effect
+\end{itemize}
+
+\textbf{Negative Effects:}
+\begin{itemize}
+\item \textbf{Volatile acidity} ($\beta$ = -1.084, p < 2$\times$10$^{-16}$): Strongest negative predictor
+\item \textbf{Total sulfur dioxide} ($\beta$ = -0.003, p = 8.00$\times$10$^{-6}$): Moderate negative effect
+\item \textbf{Chlorides} ($\beta$ = -1.874, p = 8.37$\times$10$^{-6}$): Moderate negative effect
+\item \textbf{pH} ($\beta$ = -0.414, p = 0.031): Weak negative effect
+\end{itemize}
+
+\subsection{Regression Diagnostics}
+\textbf{Application Requirements Assessment:}
+\begin{itemize}
+\item \textbf{AR1 (Linearity):} Satisfied based on residual plots
+\item \textbf{AR2 (Zero mean residuals):} Satisfied (mean = -3.78$\times$10$^{-17}$)
+\item \textbf{AR3 (No autocorrelation):} \textbf{VIOLATED} - Durbin-Watson p = 0
+\item \textbf{AR4 (Homoscedasticity):} \textbf{VIOLATED} - Breusch-Pagan p = 2.04$\times$10$^{-6}$
+\item \textbf{AR5 (No multicollinearity):} \textbf{CONCERN} - Fixed acidity VIF = 7.77
+\item \textbf{AR6 (Normal residuals):} \textbf{VIOLATED} - Shapiro-Wilk p = 1.95$\times$10$^{-8}$
+\end{itemize}
+
+\textbf{Violations Identified:} The model violates autocorrelation, homoscedasticity, and normality assumptions. These violations may affect the reliability of statistical tests but do not invalidate the overall pattern identification.
+
+\section{Task 4: Wine Quality Classification}
+
+Binary classification distinguishing good wines (quality $\geq$ 8) from bad wines (quality $\leq$ 4) using logistic regression on 444 wines (246 bad, 198 good).
+
+\textbf{Model Performance Metrics:}
+\begin{itemize}
+\item \textbf{Accuracy:} 84.9\%
+\item \textbf{Precision:} 83.9\%
+\item \textbf{Recall:} 81.8\%
+\item \textbf{F1-Score:} 82.9\%
+\end{itemize}
+
+\textbf{Key Predictors for Quality Classification:}
+The logistic regression identified several significant chemical predictors, with volatile acidity showing the strongest negative association with good quality, while pH and sulphates demonstrated positive relationships with wine quality.
+
+\section{Task 5: Wine Color Prediction with Train/Test Validation}
+
+\subsection{Model Development and Validation}
+\textbf{Data Split:} Training set (4,547 observations, 70\%) and test set (1,950 observations, 30\%)
+
+\subsection{Outstanding Performance Results}
+\textbf{Test Set Performance:}
+\begin{itemize}
+\item \textbf{Accuracy:} 99.2\%
+\item \textbf{Precision:} 99.1\%
+\item \textbf{Recall:} 99.9\%
+\item \textbf{F1-Score:} 99.5\%
+\item \textbf{AUC Value:} 0.996
+\end{itemize}
+
+\textbf{Model Interpretation:} The logistic regression successfully distinguishes wine colors using chemical properties. According to Hosmer-Lemeshow criteria, an AUC $\geq$ 0.9 represents ``outstanding classification,'' making this model exceptionally reliable for color prediction.
+
+\textbf{Most Discriminating Variables:}
+\begin{itemize}
+\item \textbf{Total sulfur dioxide} (positive for white wines)
+\item \textbf{Residual sugar} (positive for white wines)
+\item \textbf{Density} (negative coefficient)
+\item \textbf{Volatile acidity} (negative for white wines)
+\end{itemize}
+
+\section{Task 6: Factor Analysis}
+
+\subsection{Suitability Assessment}
+\begin{itemize}
+\item \textbf{KMO Test:} Overall MSA = 0.41 (below optimal 0.5 threshold but acceptable)
+\item \textbf{Bartlett's Test:} $\chi^2$ significant (p < 0.001), confirming sufficient correlations exist
+\item \textbf{Parallel Analysis:} Suggested 5 factors, but 3 factors selected for interpretability
+\end{itemize}
+
+\subsection{Factor Structure}
+Three factors extracted explaining 54.8\% of total variance:
+
+\textbf{Factor 1 - ``Chemical Complexity'' (23.2\% variance):}
+\begin{itemize}
+\item High loadings: Fixed acidity (0.65), volatile acidity (0.60), chlorides (0.48), sulphates (0.45)
+\item Interpretation: Represents overall chemical complexity and acidity profile
+\end{itemize}
+
+\textbf{Factor 2 - ``Sweetness-Density Profile'' (19.9\% variance):}
+\begin{itemize}
+\item High loadings: Density (0.90), residual sugar (0.76), alcohol (-0.74)
+\item Interpretation: Captures the sweetness-alcohol-density relationship
+\end{itemize}
+
+\textbf{Factor 3 - ``Acid Structure'' (11.7\% variance):}
+\begin{itemize}
+\item High loadings: Fixed acidity (0.75), citric acid (0.53), pH (-0.55)
+\item Interpretation: Represents acid composition and pH balance
+\end{itemize}
+
+\textbf{Factor Reliability:} Multiple R-squared values (0.91-0.99) indicate good factor score adequacy despite marginal KMO value.

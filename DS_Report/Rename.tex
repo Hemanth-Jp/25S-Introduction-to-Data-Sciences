@@ -17,6 +17,17 @@
 %\def\isGerman{1}
 \def\isEnglish{1}
 
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{setspace}
 
 \include{General/Packages}
 \include{General/commands}
@@ -37,21 +48,21 @@
 \pagenumbering{roman}
 
 \tableofcontents
-%\cleardoublepage
+\cleardoublepage
 
 \addcontentsline{toc}{chapter}{\TRANS{Abbildungsverzeichnis}{List of figures}}
 \listoffigures
-%\cleardoublepage
+\cleardoublepage
 
 \addcontentsline{toc}{chapter}{\TRANS{Tabellenverzeichnis}{List of tables}}
 \listoftables
-%\cleardoublepage
+\cleardoublepage
  
  
 \chapter*{\TRANS{Abkürzungen}{Acronyms}}
 \addcontentsline{toc}{chapter}{\TRANS{Abkürzungen}{Acronyms}}
 
-%\cleardoublepage
+\cleardoublepage
  
 \pagenumbering{arabic}
 
@@ -69,32 +80,30 @@
 
 
 
-\InputLanguage{Chapters/}{01Introduction}
-\InputLanguage{Chapters/}{02Hypotheses}
-\InputLanguage{Chapters/}{03EmpiricalStudy}
-\InputLanguage{Chapters/}{02\_theory}
-\InputLanguage{Chapters/}{03\_research}
-\InputLanguage{Chapters/}{04\_hypotheses}
-\InputLanguage{Chapters/}{05a\_data}
-\InputLanguage{Chapters/}{05b\_eda}
-\InputLanguage{Chapters/}{05c\_ttest}
-\InputLanguage{Chapters/}{05d\_regression}
-\InputLanguage{Chapters/}{05e\_classification}
-\InputLanguage{Chapters/}{05f\_factor}
-\InputLanguage{Chapters/}{06\_conclusion}
+
+%\input{title_page}
+\InputLanguage{Chapters/}{abstract}
+\InputLanguage{Chapters/}{introduction}
+\InputLanguage{Chapters/}{methodology}
+\InputLanguage{Chapters/}{results}
+\InputLanguage{Chapters/}{discussion}
+\InputLanguage{Chapters/}{conclusion}
+\InputLanguage{Chapters/}{references}
+\InputLanguage{Chapters/}{statutory\_declaration}
+\InputLanguage{Chapters/}{ai\_declaration}
+\InputLanguage{Chapters/}{appendices}
+
+\part{Appendix}
 
 
 
 
-
-
-
-%\cleardoublepage
+\cleardoublepage
 \addcontentsline{toc}{chapter}{\TRANS{Literaturverzeichnis}{Bibliography}}
 \printbibliography
 
 
-%\cleardoublepage
+\cleardoublepage
 
 %\renewcommand{\indexname}{\TRANS{Stichwortverzeichnis}{Index}}
 %\addcontentsline{toc}{chapter}{\TRANS{Stichwortverzeichnis}{Index}}
