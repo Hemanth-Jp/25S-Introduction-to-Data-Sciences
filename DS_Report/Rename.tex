@@ -28,6 +28,7 @@
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 \usepackage{setspace}
+\usepackage{listings}  % Add this in the preamble
 
 \include{General/Packages}
 \include{General/commands}
@@ -91,9 +92,15 @@
 \InputLanguage{Chapters/}{references}
 \InputLanguage{Chapters/}{statutory\_declaration}
 \InputLanguage{Chapters/}{ai\_declaration}
+\part{Appendix}
 \InputLanguage{Chapters/}{appendices}
 
-\part{Appendix}
+
+
+...
+
+\lstinputlisting[language=R, caption=Wine.r, label=lst:wine]{Code/Wine.r}
+
 
 
 
