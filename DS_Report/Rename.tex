@@ -29,6 +29,7 @@
 \usepackage{fancyhdr}
 \usepackage{setspace}
 \usepackage{listings}  % Add this in the preamble
+\usepackage{pdfpages}
 
 \include{General/Packages}
 \include{General/commands}
@@ -99,8 +100,11 @@
 
 ...
 
-\lstinputlisting[language=R, caption=Wine.r, label=lst:wine]{Code/Wine.r}
+%\lstinputlisting[language=R, caption=Wine.r, label=lst:wine]{Code/Wine.r}
+%\pythonexternal{Code/Wine.r}
 
+
+\includepdf[pages=-]{WinedatasetResult.pdf}
 
 
 
