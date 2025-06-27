@@ -8,6 +8,12 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Automatisches erstellen und referenzieren eines Abkürzungsverzeichnisses
+%\usepackage[tooltip]{acro}
+\usepackage{acro}
+%\usepackage{acronym} nicht in Verwendung; hier erwähnt, weil immer Verwechslungen auftreten.
+
+
 
 %\acsetup{
 %%    list-type    = table ,
@@ -20,15 +26,43 @@
 %    first-long-format = {\itshape}, % Erste Lange Ausführung der Abkürzung kursiv gestellt
 %}
 
+% muss für Akronyme \ac statt see verwendet werden.
+%\newcommand{\Siehe}{
+%	\ifdefined\isGerman
+%	\emph{siehe}
+%	\else
+%	\ifdefined\isEnglish
+%	\emph{see}
+%	\else
+%	\emph{siehe}
+%	\fi
+%	\fi
+%}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % A
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareAcronym{adc}{
+	short = ADC\index{ADC}, 
+	long  = Analog to Digital Converter\index{Analog to Digital Converter!\Siehe ADC},
+}
+
+\DeclareAcronym{ap}{
+	short = AP\index{AP}, 
+	long  = Average Precision\index{Average Precision!\Siehe {AP}},
+}
 
 \DeclareAcronym{api}{
     short = API\index{API}, 
     long  = Application Programming Interface\index{Application Programming Interface!\Siehe {API}},
 }
 
+\DeclareAcronym{ARM}{
+	short = ARM\index{ARM}, 
+	long  = Advanced RISC Machine\index{Advanced RISC Machine!\Siehe ARM},
+}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,6 +83,12 @@
     long  = Camera Control Interface\index{Camera Control Interface!\Siehe {CCI}},
 }
 
+\DeclareAcronym{cli}{
+	short = CLI\index{CLI},
+%	long  = \TRANS{Kommandozeilenschnitte}{Command Line Interface}\index{\TRANS{Kommandozeilenschnitte}{Command Line Interface}!\Siehe {CCI}},
+	long  = Command Line Interface\index{Command Line Interface!\Siehe {CCI}},
+}
+
 \DeclareAcronym{csi}{
   short = CSI\index{CSI},
   long  = Camera Serial Interface\index{Camera Serial Interface!\Siehe {CSI}},
@@ -65,8 +105,8 @@
 }
 
 \DeclareAcronym{cnc}{
-    short = CNC\index{CNN} ,
-    long  = Computerized Numerical Control\index{Computerized Numerical Control!\Siehe {CNN}} ,
+	short = CNC\index{CNN} ,
+	long  = Computerized Numerical Control\index{Computerized Numerical Control!\Siehe {CNN}} ,
 }
 
 \DeclareAcronym{cnn}{
@@ -84,6 +124,12 @@
     long  = Central Processing Unit\index{Central Processing Unit!\Siehe {CPU}} ,
 }
 
+
+\DeclareAcronym{csp}{
+	short = CSP\index{CSP} ,
+	long  = Cross Stage Partial Network\index{Cross Stage Partial Network!\Siehe {CSP}} ,
+}
+
 \DeclareAcronym{cuda}{
     short = CUDA\index{CUDA} ,
 	long  = Compute Unified Device Architecture\index{Compute Unified Device Architecture!\Siehe {CUDA}} ,
@@ -97,6 +143,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % D
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareAcronym{dac}{
+	short = DAC\index{DAC}, 
+	long  = Digital to Analog Converter\index{Digital to Analog Converter!\Siehe DAC},
+}
 
 \DeclareAcronym{dll}{
     short = DLL ,
@@ -135,7 +186,7 @@
 
 \DeclareAcronym{fpga}{
   short = FPGA,
-  long  = Ffield-Programmable Gate Array,
+  long  = Field-Programmable Gate Array,
 }
 
 \DeclareAcronym{fps}{
@@ -192,6 +243,12 @@
 	long  = Integrated Development Environment\index{Integrated Development Environment!\Siehe IDE},
 }
 
+\DeclareAcronym{imu}{
+    short = IMU\index{IMU} ,
+    long  = \TRANS{Inertialmesseinheit}{Inertial Measurement Unit}\index{\TRANS{Inertialmesseinheit}{Inertial Measurement Unit}!\Siehe IMU},
+}
+
+
 \DeclareAcronym{int8}{
     short = INT8, 
     long = Integer 8-bit,
@@ -229,6 +286,11 @@
 % L
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\DeclareAcronym{led}{
+    short = LED\index{LED}, 
+    long  = Light Emitting Diode\index{Light Emitting Diode!\Siehe {LED}},
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % M
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -260,6 +322,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % P
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareAcronym{pan}{
+	short = PAN\index{PAN} ,
+	long  = Path Aggregation Network\index{Path Aggregation Network!\Siehe PAN} ,
+}
 
 \DeclareAcronym{ppa}{
     short = PPA\index{PPa}, 
@@ -309,6 +376,22 @@
 \DeclareAcronym{rgb}{
   short = RGB,
   long  = Rot-Grün-Blau}
+
+\DeclareAcronym{roi}{
+	short = ROI\index{Region of Interest},
+	long  = Region of Interest\index{Region of Interest}
+}
+
+\DeclareAcronym{rpc}{
+	short = RPC\index{RPC}, 
+	long  = Remote call procedure\index{Remote call procedure!\Siehe RPC},
+}
+
+\DeclareAcronym{RTOS}{
+	short = RTOS\index{RTOS}, 
+	long  = Real Time Operating System\index{Real Time Operating System!\Siehe RTOS},
+}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % S
@@ -371,6 +454,11 @@
 	long  = Streaming Processor\index{Streaming Processor!\Siehe SP} ,
 }
 
+\DeclareAcronym{spp}{
+	short = SP\index{SP} ,
+	long  = Streaming Processor\index{Streaming Processor!\Siehe SP} ,
+}
+
 \DeclareAcronym{sps}{
     short = SPS\index{SPS} ,
     long  = Speicherprogrammierbare Steuerung\index{Speicherprogrammierbare Steuerung!\Siehe SPS} ,
@@ -395,6 +483,11 @@
     long  = Universal Asynchronous Receiver Transmitter\index{Universal Asynchronous Receiver Transmitter!\Siehe UART},
 }
 
+\DeclareAcronym{ui}{
+	short = UI\index{UI},
+	long = user interface\index{user interface!\Siehe UI},
+}
+
 \DeclareAcronym{uma}{
   short = UMA\index{UMA}, 
   long  = Unified Memory Architecture\index{Unified Memory Architecture!\Siehe UMA},
@@ -413,6 +506,20 @@
   short = VPU\index{VPU},
   long  = Video Processing Unit\index{Video Processing Unit!\Siehe VPU},
 }
+
+ 
+\DeclareAcronym{vm}{
+	short = VM\index{VM},
+	long  = Virtual Machine\index{Virtual Machine!\Siehe VM},
+}
+
+
+\DeclareAcronym{vnc}{
+	short = VNC\index{VNC} ,
+	long  = Virtual Network Computing\index{Virtual Network Computing!\Siehe VNC} ,
+}
+
+
   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % W
@@ -421,9 +528,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % X
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Y
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\DeclareAcronym{yolo}{
+	short = YOLO\index{YOLO},
+	long  = You Only Look Once\index{You Only Look Once!\Siehe YOLO},
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Z
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
