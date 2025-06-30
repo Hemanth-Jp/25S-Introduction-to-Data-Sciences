@@ -1,8 +1,8 @@
 # ===================================================================
 # Introduction to Data Science - Wine Dataset Analysis
-# Authors: [Your Name] & Manoj Kumar Prabhakaran (7026006)
+# Authors: Hemanth Jadiswami Prabhakaran (7026000) & Manoj Kumar Prabhakaran (7026006)
 # Assignment: Analysis of Portuguese Wine Dataset
-# Date: June 2025
+# Date: 30th June 2025
 # ===================================================================
 
 # Clear workspace
